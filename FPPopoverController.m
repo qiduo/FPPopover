@@ -321,11 +321,13 @@
     }
      _window=nil;
      _parentView=nil;
-    
 }
 
 -(void)dismissPopoverAnimated:(BOOL)animated {
 	[self dismissPopoverAnimated:animated completion:nil];
+    [_touchView removeFromSuperview];
+    SAFE_ARC_RELEASE(_touchView);
+    _touchView = nil;
 }
 
 -(void)dismissPopoverAnimated:(BOOL)animated completion:(FPPopoverCompletion)completionBlock
