@@ -61,7 +61,7 @@
         else if(!touchedInside && _outsideBlock)
         {
             _outsideBlock();
-			SAFE_ARC_RELEASE(_outsideBlock);
+			SAFE_ARC_AUTORELEASE(_outsideBlock);
 			_outsideBlock = nil;
         }
     }
