@@ -56,19 +56,16 @@
         //we need to set the background as clear to see the view below
         self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = YES;
-        
-        self.layer.shadowOpacity = 0.7;
-        self.layer.shadowRadius = 5;
-        self.layer.shadowOffset = CGSizeMake(-3, 3);
+        self.opaque = NO;
 
         //to get working the animations
         self.contentMode = UIViewContentModeRedraw;
 
-        //3d border default is on
-        self.draw3dBorder = YES;
+        //3d border default is off - qiduo
+        self.draw3dBorder = NO;
         
         //border
-        self.border = YES;
+        self.border = NO;
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _titleLabel.backgroundColor = [UIColor clearColor];
@@ -354,99 +351,99 @@
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-    
-
-    CGGradientRef gradient = [self newGradient];
-    
-    
-    CGContextRef ctx = UIGraphicsGetCurrentContext();    
-    CGContextSaveGState(ctx);
-    
-    //content fill
-    CGPathRef contentPath = [self newContentPathWithBorderWidth:2.0 arrowDirection:_arrowDirection];
-    
-    
-    CGContextAddPath(ctx, contentPath);
-    CGContextClip(ctx);
-
-    //  Draw a linear gradient from top to bottom
-    CGPoint start;
-    CGPoint end;
-    if(_arrowDirection == FPPopoverArrowDirectionUp || _arrowDirection == FPPopoverNoArrow)
-    {
-        start = CGPointMake(self.bounds.size.width/2.0, 0);
-        end = CGPointMake(self.bounds.size.width/2.0,40);
-    }
-    else 
-    {
-        start = CGPointMake(self.bounds.size.width/2.0, 0);
-        end = CGPointMake(self.bounds.size.width/2.0,20);
-    }
-
-
-    
-    CGContextDrawLinearGradient(ctx, gradient, start, end, 0);
-    
-    CGGradientRelease(gradient);
-    //fill the other part of path
-    if(self.tint == FPPopoverBlackTint)
-    {
-        CGContextSetRGBFillColor(ctx, 0.1, 0.1, 0.1, 1.0);        
-    }
-    else if(self.tint == FPPopoverLightGrayTint)
-    {
-        CGContextSetRGBFillColor(ctx, 0.3, 0.3, 0.3, 1.0);        
-    }
-    else if(self.tint == FPPopoverRedTint)
-    {
-        CGContextSetRGBFillColor(ctx, 0.36, 0.0, 0.09, 1.0);        
-    }
-    else if(self.tint == FPPopoverGreenTint)
-    {
-        CGContextSetRGBFillColor(ctx, 0.18, 0.30, 0.03, 1.0);        
-    }
-    else if(self.tint == FPPopoverWhiteTint)
-    {
-        CGContextSetRGBFillColor(ctx, 1, 1, 1, 1.0);
-    }
-
-    
-    CGContextFillRect(ctx, CGRectMake(0, end.y, self.bounds.size.width, self.bounds.size.height-end.y));
-    //internal border
-    CGContextBeginPath(ctx);
-    CGContextAddPath(ctx, contentPath);
-    CGContextSetRGBStrokeColor(ctx, 0.7, 0.7, 0.7, 1.0);
-    CGContextSetLineWidth(ctx, 1);
-    CGContextSetLineCap(ctx,kCGLineCapRound);
-    CGContextSetLineJoin(ctx, kCGLineJoinRound);
-    CGContextStrokePath(ctx);
-    CGPathRelease(contentPath);
-
-    //external border
-    CGPathRef externalBorderPath = [self newContentPathWithBorderWidth:1.0 arrowDirection:_arrowDirection];
-    CGContextBeginPath(ctx);
-    CGContextAddPath(ctx, externalBorderPath);
-    CGContextSetRGBStrokeColor(ctx, 0.4, 0.4, 0.4, 1.0);
-    CGContextSetLineWidth(ctx, 1);
-    CGContextSetLineCap(ctx,kCGLineCapRound);
-    CGContextSetLineJoin(ctx, kCGLineJoinRound);
-    CGContextStrokePath(ctx);
-    CGPathRelease(externalBorderPath);
-
-    //3D border of the content view
-    if(self.draw3dBorder) {
-        CGRect cvRect = _contentView.frame;
-        //firstLine
-        CGContextSetRGBStrokeColor(ctx, 0.7, 0.7, 0.7, 1.0);
-        CGContextStrokeRect(ctx, cvRect);
-        //secondLine
-        cvRect.origin.x -= 1; cvRect.origin.y -= 1; cvRect.size.height += 2; cvRect.size.width += 2;
-        CGContextSetRGBStrokeColor(ctx, 0.4, 0.4, 0.4, 1.0);
-        CGContextStrokeRect(ctx, cvRect);        
-    }
-    
-    
-    CGContextRestoreGState(ctx);
+//    
+//
+//    CGGradientRef gradient = [self newGradient];
+//    
+//    
+//    CGContextRef ctx = UIGraphicsGetCurrentContext();    
+//    CGContextSaveGState(ctx);
+//    
+//    //content fill
+//    CGPathRef contentPath = [self newContentPathWithBorderWidth:2.0 arrowDirection:_arrowDirection];
+//    
+//    
+//    CGContextAddPath(ctx, contentPath);
+//    CGContextClip(ctx);
+//
+//    //  Draw a linear gradient from top to bottom
+//    CGPoint start;
+//    CGPoint end;
+//    if(_arrowDirection == FPPopoverArrowDirectionUp || _arrowDirection == FPPopoverNoArrow)
+//    {
+//        start = CGPointMake(self.bounds.size.width/2.0, 0);
+//        end = CGPointMake(self.bounds.size.width/2.0,40);
+//    }
+//    else 
+//    {
+//        start = CGPointMake(self.bounds.size.width/2.0, 0);
+//        end = CGPointMake(self.bounds.size.width/2.0,20);
+//    }
+//
+//
+//    
+//    CGContextDrawLinearGradient(ctx, gradient, start, end, 0);
+//    
+//    CGGradientRelease(gradient);
+//    //fill the other part of path
+//    if(self.tint == FPPopoverBlackTint)
+//    {
+//        CGContextSetRGBFillColor(ctx, 0.1, 0.1, 0.1, 1.0);        
+//    }
+//    else if(self.tint == FPPopoverLightGrayTint)
+//    {
+//        CGContextSetRGBFillColor(ctx, 0.3, 0.3, 0.3, 1.0);        
+//    }
+//    else if(self.tint == FPPopoverRedTint)
+//    {
+//        CGContextSetRGBFillColor(ctx, 0.36, 0.0, 0.09, 1.0);        
+//    }
+//    else if(self.tint == FPPopoverGreenTint)
+//    {
+//        CGContextSetRGBFillColor(ctx, 0.18, 0.30, 0.03, 1.0);        
+//    }
+//    else if(self.tint == FPPopoverWhiteTint)
+//    {
+//        CGContextSetRGBFillColor(ctx, 1, 1, 1, 1.0);
+//    }
+//
+//    
+//    CGContextFillRect(ctx, CGRectMake(0, end.y, self.bounds.size.width, self.bounds.size.height-end.y));
+//    //internal border
+//    CGContextBeginPath(ctx);
+//    CGContextAddPath(ctx, contentPath);
+//    CGContextSetRGBStrokeColor(ctx, 0.7, 0.7, 0.7, 1.0);
+//    CGContextSetLineWidth(ctx, 1);
+//    CGContextSetLineCap(ctx,kCGLineCapRound);
+//    CGContextSetLineJoin(ctx, kCGLineJoinRound);
+//    CGContextStrokePath(ctx);
+//    CGPathRelease(contentPath);
+//
+//    //external border
+//    CGPathRef externalBorderPath = [self newContentPathWithBorderWidth:1.0 arrowDirection:_arrowDirection];
+//    CGContextBeginPath(ctx);
+//    CGContextAddPath(ctx, externalBorderPath);
+//    CGContextSetRGBStrokeColor(ctx, 0.4, 0.4, 0.4, 1.0);
+//    CGContextSetLineWidth(ctx, 1);
+//    CGContextSetLineCap(ctx,kCGLineCapRound);
+//    CGContextSetLineJoin(ctx, kCGLineJoinRound);
+//    CGContextStrokePath(ctx);
+//    CGPathRelease(externalBorderPath);
+//
+//    //3D border of the content view
+//    if(self.draw3dBorder) {
+//        CGRect cvRect = _contentView.frame;
+//        //firstLine
+//        CGContextSetRGBStrokeColor(ctx, 0.7, 0.7, 0.7, 1.0);
+//        CGContextStrokeRect(ctx, cvRect);
+//        //secondLine
+//        cvRect.origin.x -= 1; cvRect.origin.y -= 1; cvRect.size.height += 2; cvRect.size.width += 2;
+//        CGContextSetRGBStrokeColor(ctx, 0.4, 0.4, 0.4, 1.0);
+//        CGContextStrokeRect(ctx, cvRect);        
+//    }
+//    
+//    
+//    CGContextRestoreGState(ctx);
 }
 
 -(void)setupViews
@@ -504,7 +501,7 @@
         contentRect.size = CGSizeMake(self.bounds.size.width-20, self.bounds.size.height-50);
         _titleLabel.frame = CGRectMake(10, 10, self.bounds.size.width-20, 20);
 		if (self.title==nil || self.title.length==0) {
-			contentRect.origin = CGPointMake(10, 30);
+			contentRect.origin = CGPointMake(10, 37);
 			contentRect.size = CGSizeMake(self.bounds.size.width-20, self.bounds.size.height-40);
 		}
     }
