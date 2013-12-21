@@ -9,6 +9,12 @@
 #import "FPTouchView.h"
 #import "ARCMacros.h"
 
+@interface FPTouchView()
+
+@property (nonatomic, weak) UIView *lastSubView;
+
+@end
+
 @implementation FPTouchView
 
 -(void)dealloc
@@ -37,6 +43,12 @@
 -(UIView*)hitTest:(CGPoint)point withEvent:(UIEvent *)event
 {
     UIView *subview = [super hitTest:point withEvent:event];
+    
+    // 这边放个lastSubView是无奈之举，有时subview = FPTouchView，会导致程序出错
+    if (_lastSubView && subview != _lastSubView) {
+        subview = _lastSubView;
+    }
+    _lastSubView = subview;
 
     if(UIEventTypeTouches == event.type)
     {
@@ -61,8 +73,6 @@
         else if(!touchedInside && _outsideBlock)
         {
             _outsideBlock();
-			SAFE_ARC_AUTORELEASE(_outsideBlock);
-			_outsideBlock = nil;
         }
     }
     

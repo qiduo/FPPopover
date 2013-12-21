@@ -326,9 +326,7 @@
 
 -(void)dismissPopoverAnimated:(BOOL)animated {
 	[self dismissPopoverAnimated:animated completion:nil];
-    [_touchView removeFromSuperview];
-    SAFE_ARC_AUTORELEASE(_touchView);
-    _touchView = nil;
+    [_touchView setTouchedOutsideBlock:nil];
 }
 
 -(void)dismissPopoverAnimated:(BOOL)animated completion:(FPPopoverCompletion)completionBlock
