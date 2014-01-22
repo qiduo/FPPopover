@@ -245,6 +245,7 @@
         if(_window.subviews.count > 0)
         {
             _parentView = [_window.subviews objectAtIndex:0];
+            [_viewController viewWillAppear:YES];
             [_parentView addSubview:self.view];
             [_viewController viewDidAppear:YES];
         }
