@@ -547,6 +547,9 @@
         if(r.origin.y <= 20) r.origin.y += 20;
     }
 
+    r.origin.x -= 5.f;
+    r.origin.y += 5.f;
+    
     //check if the developer wants and arrow
     if(self.arrowDirection != FPPopoverNoArrow)
         _contentView.arrowDirection = bestDirection;

@@ -20,6 +20,7 @@
     //default FPPopoverArrowDirectionUp
     FPPopoverArrowDirection _arrowDirection;
     UIView *_contentView;
+    UIImageView *_backgroundImageView;
     UILabel *_titleLabel;
 }
 @end
@@ -57,7 +58,13 @@
         self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = YES;
         self.opaque = NO;
-
+        
+        _backgroundImageView = [[UIImageView alloc] initWithFrame:frame];
+        _backgroundImageView.image = [[UIImage imageNamed:@"bg-popover"] resizableImageWithCapInsets:UIEdgeInsetsMake(10.f, 10.f, 10.f, 10.f)];
+        _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        
+        [self addSubview:_backgroundImageView];
+        
         //to get working the animations
         self.contentMode = UIViewContentModeRedraw;
 
