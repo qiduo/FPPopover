@@ -504,13 +504,8 @@
     
     else if(_arrowDirection == FPPopoverNoArrow)
     {
-        contentRect.origin = CGPointMake(10, 40);
-        contentRect.size = CGSizeMake(self.bounds.size.width-20, self.bounds.size.height-50);
-        _titleLabel.frame = CGRectMake(10, 10, self.bounds.size.width-20, 20);
-		if (self.title==nil || self.title.length==0) {
-			contentRect.origin = CGPointMake(10, 0.f);
-			contentRect.size = CGSizeMake(self.bounds.size.width-20, self.bounds.size.height - 2.f);
-		}
+        contentRect.origin = CGPointZero;
+        contentRect.size = self.bounds.size;
     }
 
     _contentView.frame = contentRect;
